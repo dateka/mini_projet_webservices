@@ -118,15 +118,17 @@ app.get('/servers/:id', async (req, res) => {
 
 // Update ne marche pas, a regarder (creer doublon)
 // Update Server creation
-app.put('/servers', async (req, res) => {
-    const server = new Servers(
-        {
-            name: req.body.name,
-            description: req.body.description,
-            owner_id: req.body.owner_id // Ne pas pouvoir le changer
-        }
-    );
-    await server.save();
+app.put('/servers/:id', async (req, res) => {
+    const server = await Servers.find({ _id : req.params.id});
+
+    const update = {
+        name: req.body.name,
+        description: req.body.description
+    }
+
+    await server.findOneAndUpdate({ _id : req.params.id}, update, {
+        new: true
+      });
     res.send(server);
 })
 
