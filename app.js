@@ -29,8 +29,7 @@ const UsersSchema = new mongoose.Schema({
     username: String,
     email: String,
     password: String,
-    server_id_list: Array,
-    server_id_permission_admin: Array
+    server_id_list: Array
 });
 // Compile schema
 const Users = mongoose.model('users', UsersSchema, 'users');
@@ -39,7 +38,8 @@ const Users = mongoose.model('users', UsersSchema, 'users');
 const ServersSchema = new mongoose.Schema({
     name: String,
     description: String,
-    owner_id: String
+    owner_id: String,
+    subscriber_id_list : Array
     });
 // Compile schema
 const Servers = mongoose.model('servers', ServersSchema);
@@ -70,8 +70,7 @@ app.post('/users', async (req, res) => {
             username: req.body.username,
             email: req.body.email,
             password: hash,
-            server_id_list: [],
-            server_id_permission_admin: []
+            server_id_list: []
         }
     );
     await user.save();
@@ -233,8 +232,7 @@ app.put('/messages/:id', async (req, res) => {
                 else
                     console.log('success');
                     res.send(message);
-                }
-            );
+            });
         }
     });
 })
@@ -243,6 +241,52 @@ app.put('/messages/:id', async (req, res) => {
 app.delete('/messages/:id', async (req, res) => {
     const messageDelete = await Messages.findOneAndDelete({_id: req.params.id});
     res.send(messageDelete);
+})
+
+// ---------------------- Gestion du user dans un server ------------------------
+
+// ajout d'un user dans le server de son choix
+// Il faut ajouter le user dans la list des abonnées du server
+app.put('/users/:user_id/servers/:server_id/add', async (req, res) => {
+    Servers.findById(req.params.server_id, function(err, server) {
+        if (!server)
+            res.send('Could not load Document');
+        else {
+            Servers.updateOne(
+                { _id: req.params.server_id},
+                { $push: { subscriber_id_list: { $each: [ {id: req.params.user_id} ] } } },
+                function(error){
+                    if (error)
+                        console.log('error');
+                    else
+                        console.log('success');
+                        res.send(server);
+                }
+            )
+        }
+    });
+})
+
+// Supression d'un user du server
+// Si un user décide de se désabonner, c'est ici que ça se passe 
+app.put('/users/:user_id/servers/:server_id/remove', async (req, res) => {
+    Servers.findById(req.params.server_id, function(err, server) {
+        if (!server)
+            res.send('Could not load Document');
+        else {
+            Servers.updateOne(
+                { _id: req.params.server_id},
+                { $pull: { subscriber_id_list: { id: req.params.user_id} } },
+                { safe : true} ,function(error) {
+                    if (error)
+                        console.log('error');
+                    else
+                        console.log('success');
+                        res.send(server);
+                }
+            )
+        }
+    });
 })
 
 
