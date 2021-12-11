@@ -116,20 +116,24 @@ app.get('/servers/:id', async (req, res) => {
     res.send(result);
 })
 
-// Update ne marche pas, a regarder (creer doublon)
 // Update Server creation
 app.put('/servers/:id', async (req, res) => {
-    const server = await Servers.find({ _id : req.params.id});
-
-    const update = {
-        name: req.body.name,
-        description: req.body.description
-    }
-
-    await server.findOneAndUpdate({ _id : req.params.id}, update, {
-        new: true
-      });
-    res.send(server);
+    Servers.findById(req.params.id, function(err, server) {
+        if (!server)
+            res.send('Could not load Document');
+        else {
+            server.name = req.body.name;
+            server.description = req.body.description;
+            server.save(function(err) {
+                if (err)
+                    console.log('error');
+                else
+                    console.log('success');
+                    res.send(server);
+                }
+            );
+        }
+    });
 })
 
 // Supression d'un server
@@ -163,8 +167,25 @@ app.get('/channels/:id', async (req, res) => {
     res.send(result);
 })
 
-// Update a faire 
-
+// Update Channel creation
+app.put('/channels/:id', async (req, res) => {
+    Channels.findById(req.params.id, function(err, channel) {
+        if (!channel)
+            res.send('Could not load Document');
+        else {
+            channel.name = req.body.name;
+            channel.description = req.body.description;
+            channel.save(function(err) {
+                if (err)
+                    console.log('error');
+                else
+                    console.log('success');
+                    res.send(channel);
+                }
+            );
+        }
+    });
+})
 
 // Supression d'un channel
 app.delete('/channels/:id', async (req, res) => {
@@ -199,7 +220,24 @@ app.get('/messages/:id', async (req, res) => {
     res.send(result);
 })
 
-// update a faire
+// Update Message creation
+app.put('/messages/:id', async (req, res) => {
+    Messages.findById(req.params.id, function(err, message) {
+        if (!message)
+            res.send('Could not load Document');
+        else {
+            message.content = req.body.content;
+            message.save(function(err) {
+                if (err)
+                    console.log('error');
+                else
+                    console.log('success');
+                    res.send(message);
+                }
+            );
+        }
+    });
+})
 
 // Supression d'un message
 app.delete('/messages/:id', async (req, res) => {
