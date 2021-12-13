@@ -1,80 +1,62 @@
+const Users = require("./Schemas/Users")
+const Servers = require("./Schemas/Servers")
+const Channels = require("./Schemas/Channels")
+const Messages = require("./Schemas/Messages")
+require('dotenv').config()
 const express = require('express')
 const mongoose = require("mongoose");
 var bodyParser = require('body-parser');
 var bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const expressOasGenerator = require('express-oas-generator');
 
-var salt = bcrypt.genSaltSync(10);
-
-// comparer un mot de passe (pour le verifier)
-//bcrypt.compareSync("B4c0/\/", hash); // true
 
 const app = express()
 const port = 3001
 
+expressOasGenerator.init(app, {});
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
 
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb+srv://toto:toto@test.fv4z6.mongodb.net/test');
+    await mongoose.connect('mongodb+srv://toto:toto@test.fv4z6.mongodb.net/test');
 }
-
-// Users schema 
-const UsersSchema = new mongoose.Schema({
-    username: String,
-    email: String,
-    password: String,
-    server_id_list: Array
-});
-// Compile schema
-const Users = mongoose.model('users', UsersSchema, 'users');
-
-// Server schema 
-const ServersSchema = new mongoose.Schema({
-    name: String,
-    description: String,
-    owner_id: String,
-    subscriber_id_list : Array
-    });
-// Compile schema
-const Servers = mongoose.model('servers', ServersSchema);
-
-// Channel schema 
-const ChannelsSchema = new mongoose.Schema({
-    server_id: String,
-    name: String
-});
-// Compile schema
-const Channels = mongoose.model('channels', ChannelsSchema);
-
-// Message schema 
-const MessagesSchema = new mongoose.Schema({
-    content: String,
-    channel_id: String,
-    owner_id: String
-});
-// Compile schema
-const Messages = mongoose.model('messages', MessagesSchema);
 
 // ------------------- USERS --------------------
 // Create a User
 app.post('/users', async (req, res) => {
-    var hash = bcrypt.hashSync(req.body.password, salt);
-    const user = new Users(
-        {
-            username: req.body.username,
-            email: req.body.email,
-            password: hash,
-            server_id_list: []
-        }
-    );
-    await user.save();
-    res.send(user);
+    try{
+        const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+        const user = new Users(
+            {
+                username: req.body.username,
+                email: req.body.email,
+                password: hashedPassword
+            }
+        );
+        await user.save();
+        res.send(201);
+    }catch {
+        res.sendStatus(500)
+    }
+})
+
+// Authenticate Users
+app.post('/users/login', async (req, res) =>{
+    const user = await Users.find({ username : req.body.username })
+    if(user == null) return res.status(400).send("Cannot find user")
+    try{
+       if(await bcrypt.compare(req.body.password, user[0].password)) {
+           res.send("Success")
+       }else{
+           res.send("Not Allowed")
+       }
+    }catch{
+        return res.sendStatus(500)
+    }
 })
 
 // Get All Users
@@ -207,24 +189,24 @@ app.post('/messages', async (req, res) => {
     res.send(message);
 })
 
-// Get All message
-app.get('/messages', async (req, res) => {
-    const result = await Messages.find();
+// Get All message for an user
+app.get('/messages', authenticateToken, async (req, res) => {
+    const result = await Messages.find({ owner_id : req.user._id});
     res.send(result);
 })
 
 // Get only One message
-app.get('/messages/:id', async (req, res) => {
+/*app.get('/messages/:id', async (req, res) => {
     const result = await Messages.find({ _id : req.params.id});
     res.send(result);
-})
+})*/
 
 // Update Message creation
-app.put('/messages/:id', async (req, res) => {
+app.put('/messages/:id', authenticateToken, async (req, res) => {
     Messages.findById(req.params.id, function(err, message) {
         if (!message)
             res.send('Could not load Document');
-        else {
+        else if (req.user._id == message.owner_id){
             message.content = req.body.content;
             message.save(function(err) {
                 if (err)
@@ -238,9 +220,21 @@ app.put('/messages/:id', async (req, res) => {
 })
 
 // Supression d'un message
-app.delete('/messages/:id', async (req, res) => {
-    const messageDelete = await Messages.findOneAndDelete({_id: req.params.id});
-    res.send(messageDelete);
+app.delete('/messages/:id', authenticateToken, async (req, res) => {
+    Messages.findById(req.params.id, function(err, message) {
+        if (!message)
+            res.send('Could not load Document');
+        else if (req.user._id == message.owner_id){
+            message.delete(function(err) {
+                if (err)
+                    console.log('error');
+                else
+                    res.send(204); // bien supprimé
+            });
+        }else{
+            res.send(403) // forbidden
+        }
+    })
 })
 
 // ---------------------- Gestion du user dans un server ------------------------
@@ -257,7 +251,7 @@ app.put('/users/:user_id/servers/:server_id/add', async (req, res) => {
                 { $push: { subscriber_id_list: { $each: [ {id: req.params.user_id} ] } } },
                 function(error){
                     if (error)
-                        console.log('error');
+                        res.sendStatus(500) // internal error
                     else
                         console.log('success');
                         res.send(server);
@@ -289,6 +283,17 @@ app.put('/users/:user_id/servers/:server_id/remove', async (req, res) => {
     });
 })
 
+function authenticateToken(req, res, next){
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(" ")[1]
+    if(token == null) return res.sendStatus(401)
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if(err) return res.sendStatus(403)
+        req.user = user
+        next()
+    })
+}
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)
