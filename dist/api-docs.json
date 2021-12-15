@@ -1,0 +1,405 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Discord_bis API",
+        "description": "mini projet webServices API",
+        "termsOfService": "http://swagger.io/terms/"
+    },
+    "basePath": "/",
+    "tags" : [
+        {
+            "name": "Users", 
+            "description": "User definition"
+        },
+        {
+            "name": "Channels", 
+            "description": "channel definition"
+        },
+        {
+            "name": "Servers", 
+            "description": "server definition"
+        },
+        {
+            "name": "Messages", 
+            "description": "message definition"
+        }
+    ],
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": ["Users"],
+                "description": "Create an user",
+                "operationId": "Http://localhost:3001/users",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "User Parameters",
+                        "in": "body",
+                        "description": "Create an user in our database",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "create response",
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "delete":{
+                "tags":["Users"],
+                "description":"Delete an user",
+                "operationId":"delete by Id",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "delete response",
+                        "schema":{
+                            "$ref":"#/definitions/Users"
+                        }
+                    }
+                }
+            },
+            "get":{
+                "tags": [ "Users"],
+                "description": "Returns the status of an user",
+                "operationId": "find by Id",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        }
+                    }
+                }
+            }
+        },
+        "/channels": {
+            "post": {
+                "tags": ["Channels"],
+                "description": "Create a channel",
+                "operationId": "Http://localhost:3001/channels",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Channel Parameters",
+                        "in": "body",
+                        "description": "Create a channel in our database",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Channels"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "create response",
+                        "schema": {
+                            "$ref": "#/definitions/Channels"
+                        }
+                    }
+                }
+            }
+        },
+        "/channels/{channel_id}": {
+            "delete":{
+                "tags":["Channels"],
+                "description":"Delete a channel",
+                "operationId":"delete by Id",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "delete response",
+                        "schema":{
+                            "$ref":"#/definitions/Channels"
+                        }
+                    }
+                }
+            },
+            "get":{
+                "tags": [ "Channels"],
+                "description": "Returns the status of a channel",
+                "operationId": "find by Id",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "schema": {
+                            "$ref": "#/definitions/Channels"
+                        }
+                    }
+                }
+            }
+        },
+        "/servers": {
+            "post": {
+                "tags": ["Servers"],
+                "description": "Create a server",
+                "operationId": "Http://localhost:3001/servers",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Server Parameters",
+                        "in": "body",
+                        "description": "Create a server in our database",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Servers"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "create response",
+                        "schema": {
+                            "$ref": "#/definitions/Servers"
+                        }
+                    }
+                }
+            }
+        },
+        "/servers/{server_id}": {
+            "delete":{
+                "tags":["Servers"],
+                "description":"Delete a server",
+                "operationId":"delete by Id",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "delete response",
+                        "schema":{
+                            "$ref":"#/definitions/Servers"
+                        }
+                    }
+                }
+            },
+            "get":{
+                "tags": [ "Servers"],
+                "description": "Returns the status of a server",
+                "operationId": "find by Id",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "schema": {
+                            "$ref": "#/definitions/Servers"
+                        }
+                    }
+                }
+            }
+        },
+        "/messages": {
+            "post": {
+                "tags": ["Messages"],
+                "description": "Create a message",
+                "operationId": "Http://localhost:3001/messages",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Message Parameters",
+                        "in": "body",
+                        "description": "Create a message in our database",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Messages"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "create response",
+                        "schema": {
+                            "$ref": "#/definitions/Messages"
+                        }
+                    }
+                }
+            }
+        },
+        "/messages/{message_id}": {
+            "delete":{
+                "tags":["Messages"],
+                "description":"Delete a message",
+                "operationId":"delete by Id",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "delete response",
+                        "schema":{
+                            "$ref":"#/definitions/Messages"
+                        }
+                    }
+                }
+            },
+            "get":{
+                "tags": [ "Messages"],
+                "description": "Returns the status of a message",
+                "operationId": "find by Id",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "schema": {
+                            "$ref": "#/definitions/Messages"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Users": {
+            "properties": {
+                "_id" : {
+                    "required":true,
+                    "type" : "string",
+                    "example" : "sdsdddfsfsdf1dsf5sd4f"
+                },
+                "username" : {
+                    "required":true,
+                    "type" : "string",
+                    "example" : "damien"
+                },
+                "email": {
+                    "required":true,
+                    "type": "string",
+                    "example": "damien@exemple.com"
+                },
+                "password": {
+                    "required":true,
+                    "type":"string",
+                    "example": "super-password"
+                },
+                "server_permission_id_list" : {
+                    "required":false,
+                    "type":"array",
+                    "example" : [
+                        "0d2f5s2f2d5s5sff5s",
+                        "0d2f5s2f2dddddsf5s"
+                    ]
+                }
+            }
+        },
+        "Channels" :{
+            "properties": {
+                "_id" : {
+                    "required":true,
+                    "type" : "string",
+                    "example" : "sdsdddfsfsdf1dsf5sd4f"
+                },
+                "server_id" : {
+                    "required":true,
+                    "type" : "string",
+                    "example" : "1deffs15s6df13gsd54g1"
+                },
+                "name" : {
+                    "required":true,
+                    "type":"string",
+                    "example" : "general"
+                }
+            }
+        },
+        "Servers" :{
+            "properties": {
+                "_id" : {
+                    "required":true,
+                    "type" : "string",
+                    "example" : "sdsdsdfesfsdf1dsf5sd4f"
+                },
+                "name" : {
+                    "required":true,
+                    "type" : "string",
+                    "example" : "1deffs15s6df13gsd54g1"
+                },
+                "description" : {
+                    "required":true,
+                    "type":"string",
+                    "example" : "general"
+                },
+                "owner_id" : {
+                    "required":true,
+                    "type":"string",
+                    "example" : "general"
+                },
+                "subscriber_id_list" : {
+                    "required":false,
+                    "type":"array",
+                    "example" : [
+                        "0d2f5s2f2d5s5sff5s",
+                        "0d2f5s2f2dddddsf5s"
+                    ]
+                }
+            }
+        },
+        "Messages" :{
+            "properties": {
+                "_id" : {
+                    "required":true,
+                    "type" : "string",
+                    "example" : "sdsdsdfesfsdf1dsf5sd4f"
+                },
+                "content" : {
+                    "required":true,
+                    "type" : "string",
+                    "example" : "coucou ça va ?"
+                },
+                "username" : {
+                    "required":true,
+                    "type":"string",
+                    "example" : "damien"
+                },
+                "channel_id" : {
+                    "required":true,
+                    "type":"string",
+                    "example" : "1fdz35sdf46sdfsdfsdf6sdf5"
+                },
+                "owner_id" : {
+                    "required":true,
+                    "type":"string",
+                    "example" : "1fsdf54sdf1qs3fsd54qsf2"
+                }
+            }
+        }
+    }
+}

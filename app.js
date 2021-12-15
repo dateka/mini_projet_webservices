@@ -8,16 +8,46 @@ const mongoose = require("mongoose");
 var bodyParser = require('body-parser');
 var bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const expressOasGenerator = require('express-oas-generator');
-
+var argv = require('minimist')(process.argv.slice(2));
+//const expressOasGenerator = require('express-oas-generator');
 
 const app = express()
 const port = 3001
-
-expressOasGenerator.init(app, {});
+const subpath = express()
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
+app.use("/v1", subpath);
+const swagger = require('swagger-node-express').createNew(subpath);
+app.use(express.static('dist'));
+
+swagger.setApiInfo({
+    title: "example API",
+    description: "API to do something, manage something...",
+    termsOfServiceUrl: "",
+    contact: "yourname@something.com",
+    license: "",
+    licenseUrl: ""
+});
+
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/dist/index.html');
+});
+swagger.configureSwaggerPaths('', 'api-docs', '');
+
+// Configure the API domain
+var domain = 'localhost';
+if(argv.domain !== undefined)
+    domain = argv.domain;
+
+// Configure the API port
+if(argv.port !== undefined)
+    port = argv.port;
+// Set and display the application URL
+var applicationUrl = 'http://' + domain + ':' + port;
+console.log('snapJob API running on ' + applicationUrl);
+
+swagger.configure(applicationUrl, '1.0.0');
 
 main().catch(err => console.log(err));
 
