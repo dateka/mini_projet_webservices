@@ -55,17 +55,23 @@
                     }
                 ],
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "create response",
                         "schema": {
                             "$ref": "#/definitions/Users"
                         }
+                    },
+                    "400": {
+                        "description": "bad request"
                     }
                 }
             }
         },
         "/users/{user_id}": {
             "delete":{
+                "security": {
+                    "Bearer": []
+                }, 
                 "tags":["Users"],
                 "description":"Delete an user",
                 "operationId":"delete by Id",
@@ -78,10 +84,22 @@
                         "schema":{
                             "$ref":"#/definitions/Users"
                         }
+                    },
+                    "400": {
+                        "description": "Invalid ID"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
                 }
             },
             "get":{
+                "security": {
+                    "Bearer": []
+                }, 
                 "tags": [ "Users"],
                 "description": "Returns the status of an user",
                 "operationId": "find by Id",
@@ -94,12 +112,24 @@
                         "schema": {
                             "$ref": "#/definitions/Users"
                         }
+                    },
+                    "400": {
+                        "description": "Invalid ID"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
                 }
             }
         },
         "/channels": {
             "post": {
+                "security": {
+                    "Bearer": []
+                }, 
                 "tags": ["Channels"],
                 "description": "Create a channel",
                 "operationId": "Http://localhost:3001/channels",
@@ -123,12 +153,18 @@
                         "schema": {
                             "$ref": "#/definitions/Channels"
                         }
+                    },
+                    "400": {
+                        "description": "bad request"
                     }
                 }
             }
         },
         "/channels/{channel_id}": {
             "delete":{
+                "security": {
+                    "Bearer": []
+                }, 
                 "tags":["Channels"],
                 "description":"Delete a channel",
                 "operationId":"delete by Id",
@@ -141,10 +177,22 @@
                         "schema":{
                             "$ref":"#/definitions/Channels"
                         }
+                    },
+                    "400": {
+                        "description": "Invalid ID"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
                 }
             },
             "get":{
+                "security": {
+                    "Bearer": []
+                }, 
                 "tags": [ "Channels"],
                 "description": "Returns the status of a channel",
                 "operationId": "find by Id",
@@ -157,12 +205,24 @@
                         "schema": {
                             "$ref": "#/definitions/Channels"
                         }
+                    },
+                    "400": {
+                        "description": "Invalid ID"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
                 }
             }
         },
         "/servers": {
             "post": {
+                "security": {
+                    "Bearer": []
+                }, 
                 "tags": ["Servers"],
                 "description": "Create a server",
                 "operationId": "Http://localhost:3001/servers",
@@ -186,12 +246,18 @@
                         "schema": {
                             "$ref": "#/definitions/Servers"
                         }
+                    },
+                    "400": {
+                        "description": "bad request"
                     }
                 }
             }
         },
         "/servers/{server_id}": {
             "delete":{
+                "security": {
+                    "Bearer": []
+                }, 
                 "tags":["Servers"],
                 "description":"Delete a server",
                 "operationId":"delete by Id",
@@ -204,10 +270,22 @@
                         "schema":{
                             "$ref":"#/definitions/Servers"
                         }
+                    },
+                    "400": {
+                        "description": "Invalid ID"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
                 }
             },
             "get":{
+                "security": {
+                    "Bearer": []
+                }, 
                 "tags": [ "Servers"],
                 "description": "Returns the status of a server",
                 "operationId": "find by Id",
@@ -220,12 +298,24 @@
                         "schema": {
                             "$ref": "#/definitions/Servers"
                         }
+                    },
+                    "400": {
+                        "description": "Invalid ID"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
                 }
             }
         },
         "/messages": {
             "post": {
+                "security": {
+                    "Bearer": []
+                }, 
                 "tags": ["Messages"],
                 "description": "Create a message",
                 "operationId": "Http://localhost:3001/messages",
@@ -249,12 +339,18 @@
                         "schema": {
                             "$ref": "#/definitions/Messages"
                         }
+                    },
+                    "400": {
+                        "description": "bad request"
                     }
                 }
             }
         },
         "/messages/{message_id}": {
             "delete":{
+                "security": {
+                    "Bearer": []
+                }, 
                 "tags":["Messages"],
                 "description":"Delete a message",
                 "operationId":"delete by Id",
@@ -267,10 +363,22 @@
                         "schema":{
                             "$ref":"#/definitions/Messages"
                         }
+                    },
+                    "400": {
+                        "description": "Invalid ID"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
                 }
             },
             "get":{
+                "security": {
+                    "Bearer": []
+                }, 
                 "tags": [ "Messages"],
                 "description": "Returns the status of a message",
                 "operationId": "find by Id",
@@ -283,6 +391,15 @@
                         "schema": {
                             "$ref": "#/definitions/Messages"
                         }
+                    },
+                    "400": {
+                        "description": "Invalid ID"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
                 }
             }

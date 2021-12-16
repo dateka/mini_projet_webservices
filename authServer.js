@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
+const Users = require("./Schemas/Users")
 
 const app = express()
 const port = 4001
@@ -17,15 +18,6 @@ main().catch(err => console.log(err));
 async function main() {
     await mongoose.connect('mongodb+srv://toto:toto@test.fv4z6.mongodb.net/test');
 }
-
-// Users schema 
-const UsersSchema = new mongoose.Schema({
-    username: String,
-    email: String,
-    password: String,
-});
-// Compile schema
-const Users = mongoose.model('users', UsersSchema, 'users');
 
 let refreshTokens = [] // mettre dans une base de données sinon a chaque fois qu'il redemarre, la liste se vide
 
