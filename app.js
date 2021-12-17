@@ -187,8 +187,22 @@ app.post('/channels', authenticateToken, (req, res) => {
             );
             await channel.save();
             return res.status(201).send("Channel successfully created ! \n" + channel)
-        }else{
-            return res.status(403).send("You cannot do that !")
+        }
+        // On va vérifier si c'est un admin nommé
+        const list_permission = req.user.server_permission_id_list;
+        for(i = 0; i < list_permission.length; i++){
+            if(list_permission[i].id == server.id){
+                const channel = new Channels(
+                    {
+                        server_id: server.id,
+                        name: req.body.name
+                    }
+                );
+                await channel.save();
+                return res.status(201).send("Channel successfully created ! \n" + channel)
+            }else{
+                return res.status(403).send("You cannot do that !")
+            }
         }
     });
 })
@@ -205,7 +219,7 @@ app.get('/channels/:id', async (req, res) => {
     res.send(result);
 })
 
-// Update Channel creation
+// Update Channel
 app.put('/channels/:id', authenticateToken, (req, res) => {
 
     Channels.findById(req.params.id, function(err, channel) {
@@ -220,14 +234,27 @@ app.put('/channels/:id', authenticateToken, (req, res) => {
                     else
                         return res.status(200).send("Channel successfully updated ! \n" + channel)
                 });
-            }else{
-                return res.status(403).send("You cannot do that !")
+            }
+            // On va vérifier si c'est un admin nommé
+            const list_permission = req.user.server_permission_id_list;
+            for(i = 0; i < list_permission.length; i++){
+                if(list_permission[i].id == server.id){
+                    channel.name = req.body.name;
+                    await channel.save(function(err) {
+                        if (err) return res.status(500).send("Server Internal Error")
+                        else
+                            return res.status(200).send("Channel successfully updated ! \n" + channel)
+                    });
+                }else{
+                    return res.status(403).send("You cannot do that !")
+                }
             }
         });
     });
 })
 
 // Supression d'un channel
+// A faire pour les admin nommé !!
 app.delete('/channels/:id', authenticateToken, async (req, res) => {
     Channels.findById(req.params.id, function(err, channel) {
         if (!channel) return res.status(404).send("Channel not found")

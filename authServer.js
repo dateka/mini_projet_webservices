@@ -50,7 +50,8 @@ app.post('/login', async (req, res) => {
                 _id : user[0].id,
                 username: user[0].username,
                 email: user[0].email,
-                password: user[0].password
+                password: user[0].password,
+                server_permission_id_list : user[0].server_permission_id_list
             }
             const access_token = generateAccessToken(userTMP)
             const refresh_token = jwt.sign(userTMP, process.env.REFRESH_TOKEN_SECRET)
