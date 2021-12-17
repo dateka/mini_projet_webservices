@@ -1,522 +1,689 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "version": "1.0.0",
-        "title": "Discord_bis API",
-        "description": "mini projet webServices API",
-        "termsOfService": "http://swagger.io/terms/"
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Discord_bis API",
+    "description": "mini projet webServices API",
+    "termsOfService": "http://swagger.io/terms/"
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "User definition"
     },
-    "basePath": "/",
-    "tags" : [
-        {
-            "name": "Users", 
-            "description": "User definition"
-        },
-        {
-            "name": "Channels", 
-            "description": "channel definition"
-        },
-        {
-            "name": "Servers", 
-            "description": "server definition"
-        },
-        {
-            "name": "Messages", 
-            "description": "message definition"
-        }
-    ],
-    "schemes": [
-        "https"
-    ],
-    "consumes": [
-        "application/json"
-    ],
-    "produces": [
-        "application/json"
-    ],
-    "paths": {
-        "/users": {
-            "post": {
-                "tags": ["Users"],
-                "description": "Create an user",
-                "operationId": "Http://localhost:3001/users",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "User Parameters",
-                        "in": "body",
-                        "description": "Create an user in our database",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "create response",
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request"
-                    }
-                }
-            }
-        },
-        "/users/{user_id}": {
-            "delete":{
-                "security": {
-                    "Bearer": []
-                }, 
-                "tags":["Users"],
-                "description":"Delete an user",
-                "operationId":"delete by Id",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "204": {
-                        "description": "delete response",
-                        "schema":{
-                            "$ref":"#/definitions/Users"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                }
-            },
-            "get":{
-                "security": {
-                    "Bearer": []
-                }, 
-                "tags": [ "Users"],
-                "description": "Returns the status of an user",
-                "operationId": "find by Id",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "response",
-                        "schema": {
-                            "$ref": "#/definitions/Users"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                }
-            }
-        },
-        "/channels": {
-            "post": {
-                "security": {
-                    "Bearer": []
-                }, 
-                "tags": ["Channels"],
-                "description": "Create a channel",
-                "operationId": "Http://localhost:3001/channels",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Channel Parameters",
-                        "in": "body",
-                        "description": "Create a channel in our database",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Channels"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "create response",
-                        "schema": {
-                            "$ref": "#/definitions/Channels"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request"
-                    }
-                }
-            }
-        },
-        "/channels/{channel_id}": {
-            "delete":{
-                "security": {
-                    "Bearer": []
-                }, 
-                "tags":["Channels"],
-                "description":"Delete a channel",
-                "operationId":"delete by Id",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "204": {
-                        "description": "delete response",
-                        "schema":{
-                            "$ref":"#/definitions/Channels"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                }
-            },
-            "get":{
-                "security": {
-                    "Bearer": []
-                }, 
-                "tags": [ "Channels"],
-                "description": "Returns the status of a channel",
-                "operationId": "find by Id",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "response",
-                        "schema": {
-                            "$ref": "#/definitions/Channels"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                }
-            }
-        },
-        "/servers": {
-            "post": {
-                "security": {
-                    "Bearer": []
-                }, 
-                "tags": ["Servers"],
-                "description": "Create a server",
-                "operationId": "Http://localhost:3001/servers",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Server Parameters",
-                        "in": "body",
-                        "description": "Create a server in our database",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Servers"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "create response",
-                        "schema": {
-                            "$ref": "#/definitions/Servers"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request"
-                    }
-                }
-            }
-        },
-        "/servers/{server_id}": {
-            "delete":{
-                "security": {
-                    "Bearer": []
-                }, 
-                "tags":["Servers"],
-                "description":"Delete a server",
-                "operationId":"delete by Id",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "204": {
-                        "description": "delete response",
-                        "schema":{
-                            "$ref":"#/definitions/Servers"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                }
-            },
-            "get":{
-                "security": {
-                    "Bearer": []
-                }, 
-                "tags": [ "Servers"],
-                "description": "Returns the status of a server",
-                "operationId": "find by Id",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "response",
-                        "schema": {
-                            "$ref": "#/definitions/Servers"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                }
-            }
-        },
-        "/messages": {
-            "post": {
-                "security": {
-                    "Bearer": []
-                }, 
-                "tags": ["Messages"],
-                "description": "Create a message",
-                "operationId": "Http://localhost:3001/messages",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Message Parameters",
-                        "in": "body",
-                        "description": "Create a message in our database",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Messages"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "create response",
-                        "schema": {
-                            "$ref": "#/definitions/Messages"
-                        }
-                    },
-                    "400": {
-                        "description": "bad request"
-                    }
-                }
-            }
-        },
-        "/messages/{message_id}": {
-            "delete":{
-                "security": {
-                    "Bearer": []
-                }, 
-                "tags":["Messages"],
-                "description":"Delete a message",
-                "operationId":"delete by Id",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "204": {
-                        "description": "delete response",
-                        "schema":{
-                            "$ref":"#/definitions/Messages"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                }
-            },
-            "get":{
-                "security": {
-                    "Bearer": []
-                }, 
-                "tags": [ "Messages"],
-                "description": "Returns the status of a message",
-                "operationId": "find by Id",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "response",
-                        "schema": {
-                            "$ref": "#/definitions/Messages"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                }
-            }
-        }
+    {
+      "name": "Channels",
+      "description": "channel definition"
     },
-    "definitions": {
-        "Users": {
-            "properties": {
-                "_id" : {
-                    "required":true,
-                    "type" : "string",
-                    "example" : "sdsdddfsfsdf1dsf5sd4f"
-                },
-                "username" : {
-                    "required":true,
-                    "type" : "string",
-                    "example" : "damien"
-                },
-                "email": {
-                    "required":true,
-                    "type": "string",
-                    "example": "damien@exemple.com"
-                },
-                "password": {
-                    "required":true,
-                    "type":"string",
-                    "example": "super-password"
-                },
-                "server_permission_id_list" : {
-                    "required":false,
-                    "type":"array",
-                    "example" : [
-                        "0d2f5s2f2d5s5sff5s",
-                        "0d2f5s2f2dddddsf5s"
-                    ]
-                }
-            }
-        },
-        "Channels" :{
-            "properties": {
-                "_id" : {
-                    "required":true,
-                    "type" : "string",
-                    "example" : "sdsdddfsfsdf1dsf5sd4f"
-                },
-                "server_id" : {
-                    "required":true,
-                    "type" : "string",
-                    "example" : "1deffs15s6df13gsd54g1"
-                },
-                "name" : {
-                    "required":true,
-                    "type":"string",
-                    "example" : "general"
-                }
-            }
-        },
-        "Servers" :{
-            "properties": {
-                "_id" : {
-                    "required":true,
-                    "type" : "string",
-                    "example" : "sdsdsdfesfsdf1dsf5sd4f"
-                },
-                "name" : {
-                    "required":true,
-                    "type" : "string",
-                    "example" : "1deffs15s6df13gsd54g1"
-                },
-                "description" : {
-                    "required":true,
-                    "type":"string",
-                    "example" : "general"
-                },
-                "owner_id" : {
-                    "required":true,
-                    "type":"string",
-                    "example" : "general"
-                },
-                "subscriber_id_list" : {
-                    "required":false,
-                    "type":"array",
-                    "example" : [
-                        "0d2f5s2f2d5s5sff5s",
-                        "0d2f5s2f2dddddsf5s"
-                    ]
-                }
-            }
-        },
-        "Messages" :{
-            "properties": {
-                "_id" : {
-                    "required":true,
-                    "type" : "string",
-                    "example" : "sdsdsdfesfsdf1dsf5sd4f"
-                },
-                "content" : {
-                    "required":true,
-                    "type" : "string",
-                    "example" : "coucou ça va ?"
-                },
-                "username" : {
-                    "required":true,
-                    "type":"string",
-                    "example" : "damien"
-                },
-                "channel_id" : {
-                    "required":true,
-                    "type":"string",
-                    "example" : "1fdz35sdf46sdfsdfsdf6sdf5"
-                },
-                "owner_id" : {
-                    "required":true,
-                    "type":"string",
-                    "example" : "1fsdf54sdf1qs3fsd54qsf2"
-                }
-            }
-        }
+    {
+      "name": "Servers",
+      "description": "server definition"
+    },
+    {
+      "name": "Messages",
+      "description": "message definition"
     }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Create an user",
+        "operationId": "Http://localhost:3001/users",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "User Parameters",
+            "in": "body",
+            "description": "Create an user in our database",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/Users"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/components/Users"
+            }
+          },
+          "400": {
+            "description": "bad request"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Users"
+        ],
+        "description": "Delete an user",
+        "operationId": "delete user by Id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "description": "ID of user to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User successfully deleted"
+          },
+          "400": {
+            "description": "Invalid ID"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Access token does not have the required scope"
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Users"
+        ],
+        "description": "Returns the status of an user",
+        "operationId": "find by Id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "description": "ID of user to fetch",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/components/Users"
+            }
+          },
+          "400": {
+            "description": "Invalid ID"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Access token does not have the required scope"
+          }
+        }
+      }
+    },
+    "/channels": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Channels"
+        ],
+        "description": "Create a channel",
+        "operationId": "Http://localhost:3001/channels",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Channel Parameters",
+            "in": "body",
+            "description": "Create a channel in our database",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/Channels"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/components/Channels"
+            }
+          },
+          "400": {
+            "description": "bad request"
+          }
+        }
+      }
+    },
+    "/channels/{channel_id}": {
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Channels"
+        ],
+        "description": "Delete a channel",
+        "operationId": "delete channel by Id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "channel_id",
+            "description": "ID of channel to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "delete response",
+            "schema": {
+              "$ref": "#/components/Channels"
+            }
+          },
+          "400": {
+            "description": "Invalid ID"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Channels"
+        ],
+        "description": "Returns the status of a channel",
+        "operationId": "find channel by Id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "channel_id",
+            "description": "ID of channel to fetch",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/components/Channels"
+            }
+          },
+          "400": {
+            "description": "Invalid ID"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/servers": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Servers"
+        ],
+        "description": "Create a server",
+        "operationId": "Http://localhost:3001/servers",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Server Parameters",
+            "in": "body",
+            "description": "Create a server in our database",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/Servers"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/components/Servers"
+            }
+          },
+          "400": {
+            "description": "bad request"
+          }
+        }
+      }
+    },
+    "/servers/{server_id}": {
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Servers"
+        ],
+        "description": "Delete a server",
+        "operationId": "delete server by Id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "server_id",
+            "description": "ID of server to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "delete response",
+            "schema": {
+              "$ref": "#/components/Servers"
+            }
+          },
+          "400": {
+            "description": "Invalid ID"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Servers"
+        ],
+        "description": "Returns the status of a server",
+        "operationId": "find server by Id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "server_id",
+            "description": "ID of server to fetch",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/components/Servers"
+            }
+          },
+          "400": {
+            "description": "Invalid ID"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/messages": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Messages"
+        ],
+        "description": "Create a message",
+        "operationId": "Http://localhost:3001/messages",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Message Parameters",
+            "in": "body",
+            "description": "Create a message in our database",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/Messages"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/components/Messages"
+            }
+          },
+          "400": {
+            "description": "bad request"
+          }
+        }
+      }
+    },
+    "/messages/{message_id}": {
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Messages"
+        ],
+        "description": "Delete a message",
+        "operationId": "delete message by Id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "message_id",
+            "description": "ID of message to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "delete response",
+            "schema": {
+              "$ref": "#/components/Messages"
+            }
+          },
+          "400": {
+            "description": "Invalid ID"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Messages"
+        ],
+        "description": "Returns the status of a message",
+        "operationId": "find message by Id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "message_id",
+            "description": "ID of message to fetch",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/components/Messages"
+            }
+          },
+          "400": {
+            "description": "Invalid ID"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "Users": {
+      "type": "object",
+      "title": "Users represents the user for this application",
+      "description": "blablabla",
+      "required": [
+        "_id",
+        "username",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "_id": {
+          "description": "the id for this user",
+          "type": "string",
+          "example": "sdsdddfsfsdf1dsf5sd4f"
+        },
+        "username": {
+          "description": "the name for this user",
+          "type": "string",
+          "example": "damien"
+        },
+        "email": {
+          "description": "the mail for this user",
+          "type": "string",
+          "example": "damien@exemple.com"
+        },
+        "password": {
+          "description": "the password for this user",
+          "type": "string",
+          "example": "super-password"
+        },
+        "server_permission_id_list": {
+          "description": "the server_permission for this user",
+          "type": "array",
+          "items": {
+            "$ref": "#/components/ListServerPermissionAdmin"
+          }
+        }
+      }
+    },
+    "Channels": {
+      "type": "object",
+      "title": "Channels represents the channel for this application",
+      "description": "blablabla",
+      "required": [
+        "_id",
+        "server_id",
+        "name"
+      ],
+      "properties": {
+        "_id": {
+          "description": "the id for this channel",
+          "type": "string",
+          "example": "sdsdddfsfsdf1dsf5sd4f"
+        },
+        "server_id": {
+          "description": "the id for the server to bind",
+          "type": "string",
+          "example": "1deffs15s6df13gsd54g1"
+        },
+        "name": {
+          "description": "the name for this channel",
+          "type": "string",
+          "example": "general"
+        }
+      }
+    },
+    "Servers": {
+      "type": "object",
+      "title": "Servers represents the server for this application",
+      "description": "blablabla",
+      "required": [
+        "_id",
+        "name",
+        "description",
+        "owner_id"
+      ],
+      "properties": {
+        "_id": {
+          "description": "the id for this server",
+          "type": "string",
+          "example": "sdsdsdfesfsdf1dsf5sd4f"
+        },
+        "name": {
+          "description": "the name for this server",
+          "type": "string",
+          "example": "1deffs15s6df13gsd54g1"
+        },
+        "description": {
+          "description": "the description for this server",
+          "type": "string",
+          "example": "general"
+        },
+        "owner_id": {
+          "description": "the owner_id for this server",
+          "type": "string",
+          "example": "general"
+        },
+        "subscriber_id_list": {
+          "description": "the subcriber list for this server",
+          "type": "array",
+          "items": {
+            "$ref": "#/components/ListSubscriber"
+          }
+        }
+      }
+    },
+    "Messages": {
+      "type": "object",
+      "title": "Messages represents the message for this application",
+      "description": "blablabla",
+      "required": [
+        "_id",
+        "content",
+        "username",
+        "channel_id",
+        "owner_id"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "sdsdsdfesfsdf1dsf5sd4f"
+        },
+        "content": {
+          "type": "string",
+          "example": "coucou ça va ?"
+        },
+        "username": {
+          "type": "string",
+          "example": "damien"
+        },
+        "channel_id": {
+          "type": "string",
+          "example": "1fdz35sdf46sdfsdfsdf6sdf5"
+        },
+        "owner_id": {
+          "type": "string",
+          "example": "1fsdf54sdf1qs3fsd54qsf2"
+        }
+      }
+    },
+    "ListServerPermissionAdmin": {
+      "type": "object",
+      "properties": {
+        "server_id": {
+          "type": "string"
+        }
+      }
+    },
+    "ListSubscriber": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        }
+      }
+    }
+  }
 }

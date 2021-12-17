@@ -63,13 +63,13 @@ app.post('/users', async (req, res) => {
 
 // Promote an user to admin
 // Only the principal admin can do this end point 
-app.put('/users/:user_id/promote', authenticateToken, async (req, res) => {
-    Servers.findById(req.body.server_id, function(err, server) {
+app.put('/users/:user_id/promote', authenticateToken, (req, res) => {
+    Servers.findById(req.body.server_id, async function(err, server) {
         if (!server) return res.status(404).send("Cannot find the server")
         // On verifie si c'est le createur du server -> donc l'admin principal
         if(req.user._id == server.owner_id){
             // On promu notre user
-            Users.updateOne(
+            await Users.updateOne(
                 { _id: req.params.user_id},
                 { $push: { server_permission_id_list: { $each: [ {id: server.id} ] } } },
                 function(error){
@@ -96,16 +96,16 @@ app.get('/users/:id', async (req, res) => {
 })
 
 // Supression d'un user (optionnal)
-app.delete('/users/:id', async (req, res) => {
-    Users.findById(req.params.id, function(err, user) {
+app.delete('/users/:id', (req, res) => {
+    Users.findById(req.params.id, async function(err, user) {
         if (!user)
             return res.status(404).send("Cannot find user")
 
-        user.delete(function(err) {
-        if (err)
-            return res.status(500).send("Internal Server Error")
-        else
-            return res.status(204).send("User successfully deleted \n" + user)
+        await user.delete(function(err) {
+            if (err)
+                return res.status(500).send("Internal Server Error")
+            else
+                return res.status(204).send("User successfully deleted \n" + user)
         });
     })
 })
@@ -138,29 +138,31 @@ app.get('/servers/:id', async (req, res) => {
 })
 
 // Update Server
-app.put('/servers/:server_id', authenticateToken, async (req, res) => {
-    Servers.findById(req.params.server_id, function(err, server) {
+app.put('/servers/:server_id', authenticateToken, (req, res) => {
+    Servers.findById(req.params.server_id, async function(err, server) {
         if (!server) return res.status(404).send("Cannot find server")
         // On verifie si c'est le createur du server -> donc l'admin principal
         if(req.user._id == server.owner_id){
             server.name = req.body.name;
             server.description = req.body.description;
-            server.save(function(err) {
+            await server.save(function(err) {
                 if (err) return res.status(500).send("Internal Server Error")
                 else
                     return res.status(200).send("Server successfully updated ! \n" + server)
             });
+        }else{
+            return res.status(403).send("You cannot do that !")
         }
     });
 })
 
 // Supression d'un server
-app.delete('/servers/:id', authenticateToken, async (req, res) => {
-    Servers.findById(req.params.id, function(err, server) {
+app.delete('/servers/:id', authenticateToken, (req, res) => {
+    Servers.findById(req.params.id, async function(err, server) {
         if (!server)
             return res.status(404).send("Cannot find server")
         else if (req.user._id == server.owner_id){
-            server.delete(function(err) {
+            await server.delete(function(err) {
                 if (err)
                     return res.status(500).send("Internal Server Error")
                 else
@@ -200,9 +202,10 @@ app.post('/channels', authenticateToken, (req, res) => {
                 );
                 await channel.save();
                 return res.status(201).send("Channel successfully created ! \n" + channel)
-            }else{
-                return res.status(403).send("You cannot do that !")
             }
+        }
+        if(i == (list_permission.length - 1) || i == list_permission.length){
+            return res.status(403).send("You cannot do that !")
         }
     });
 })
@@ -245,16 +248,16 @@ app.put('/channels/:id', authenticateToken, (req, res) => {
                         else
                             return res.status(200).send("Channel successfully updated ! \n" + channel)
                     });
-                }else{
-                    return res.status(403).send("You cannot do that !")
                 }
+            }
+            if(i == (list_permission.length - 1) || i == list_permission.length){
+                return res.status(403).send("You cannot do that !")
             }
         });
     });
 })
 
 // Supression d'un channel
-// A faire pour les admin nommé !!
 app.delete('/channels/:id', authenticateToken, async (req, res) => {
     Channels.findById(req.params.id, function(err, channel) {
         if (!channel) return res.status(404).send("Channel not found")
@@ -268,7 +271,20 @@ app.delete('/channels/:id', authenticateToken, async (req, res) => {
                     else
                         return res.status(204).send("Channel successfully deleted ! \n" + channel)
                 });
-            }else{
+            }
+            // On va vérifier si c'est un admin nommé
+            const list_permission = req.user.server_permission_id_list;
+            for(i = 0; i < list_permission.length; i++){
+                if(list_permission[i].id == server.id){
+                    await channel.delete(function(err) {
+                        if (err)
+                            return res.status(500).send("Server Internal Error")
+                        else
+                            return res.status(204).send("Channel successfully deleted ! \n" + channel)
+                    });
+                }
+            }
+            if(i == (list_permission.length - 1) || i == list_permission.length){
                 return res.status(403).send("You cannot do that !")
             }
         });
@@ -296,9 +312,10 @@ app.post('/messages', authenticateToken, async (req, res) => {
                     );
                     await message.save();
                     return res.status(201).send("Message successfully created ! \n" + message)
-                }else{
-                    return res.status(403).send("You cannot do that ! You must be subscribe")
                 }
+            }
+            if(u == (subscriber_list.length - 1) || u == subscriber_list.length){
+                return res.status(403).send("You cannot do that ! You must be subscribe")
             }
         });
     });
@@ -323,9 +340,10 @@ app.get('/channels/:channel_id/messages', authenticateToken, async (req, res) =>
                     // on affiche tous les messages du channel
                     const result = await Messages.find({ channel_id : channel.id});
                     return res.status(200).send(result)
-                }else{
-                    return res.status(403).send("You cannot do that ! You must be subscribe")
                 }
+            }
+            if(u == subscriber_list || u == (subscriber_list - 1)){
+                return res.status(403).send("You cannot do that ! You must be subscribe")
             }
         });
     });
@@ -367,22 +385,27 @@ app.delete('/messages/:id', authenticateToken, (req, res) => {
                 if (!server) return res.status(404).send("Server not found")
                 // On verifie si le user est l'admin principal
                 if(req.user._id == server.owner_id){
-                    await message.delete(function(err) {
-                        if (err)
-                            return res.status(500).send("Internal Server Error")
-                        else
-                            return res.status(204).send("Message successfully deleted ! \n " + message)
-                    });
-                // Si c'est pas l'admin principal, on vérifie si notre user est bien le propriétaire du message
-                }else if (req.user._id == message.owner_id){
-                    await message.delete(function(err) {
-                        if (err)
-                            return res.status(500).send("Internal Server Error")
-                        else
-                            return res.status(204).send("Message successfully deleted ! \n " + message)
-                    });
-                }else{
-                    return res.status(403).send("You cannot do that !")
+                    const resultat = await message.delete();
+
+                    if (resultat == null) return res.status(500).send("Internal Server Error")
+                    return res.status(204).send("Message successfully deleted ! \n ")
+                }
+                // On va vérifier si c'est un admin nommé
+                const list_permission = req.user.server_permission_id_list;
+                for(i = 0; i < list_permission.length; i++){
+                    if(list_permission[i].id == server.id){
+                        const resultat = await message.delete();
+
+                        if (resultat == null) return res.status(500).send("Internal Server Error")
+                        return res.status(204).send("Message successfully deleted ! \n ")
+                    }
+                }
+                // On vérifie si notre user est bien le propriétaire du message
+                if (req.user._id == message.owner_id){
+                    const resultat = await message.delete();
+
+                    if (resultat == null) return res.status(500).send("Internal Server Error")
+                    return res.status(204).send("Message successfully deleted ! \n ")
                 }
             });
         });
@@ -429,38 +452,45 @@ app.put('/servers/:server_id/subscribe', (req, res) => {
 // Supression d'un user du server
 // Si un user décide de se désabonner, c'est ici que ça se passe
 app.put('/servers/:server_id/unsubscribe', authenticateToken, async (req, res) => {
-    Servers.findById(req.params.server_id, function(err, server) {
+    Servers.findById(req.params.server_id, async function(err, server) {
         if (!server)
             return res.status(404).send("Server not found")
         else {
             // On va d'abord vérifier si le user n'est pas l'admin principal
             if(server.owner_id == req.user._id){
-                Servers.updateOne(
+                const resultat = await Servers.updateOne(
                     { _id: req.params.server_id},
                     { $pull: { subscriber_id_list: { id: req.body.id} } },
-                    { safe : true} ,function(error) {
-                        if (error)
-                            return res.status(500).send("Server Internal Error")
-                        else
-                            return res.status(200).send("User is unsubscribe !" + server)
-                    }
+                    { safe : true}
                 )
+                if(resultat == null) return res.status(500).send("Internal Server Error")
+                return res.status(200).send("User is unsubscribe !")
             }else{
+                // On va vérifier si c'est un admin nommé
+                const list_permission = req.user.server_permission_id_list;
+                for(i = 0; i < list_permission.length; i++){
+                    if(list_permission[i].id == server.id){
+                        const resultat = await Servers.updateOne(
+                            { _id: req.params.server_id},
+                            { $pull: { subscriber_id_list: { id: req.body.id} } },
+                            { safe : true}
+                        )
+                        if(resultat == null) return res.status(500).send("Internal Server Error")
+                        return res.status(200).send("User is unsubscribe !")
+                    }
+                }
                 // On doit vérifier que l'utilisateur qui souhaite se désabonner est abonné
                 // Pour ça, on va comparer les ID du user de la liste des subscribers
                 const subscriber_list = server.subscriber_id_list
                 for(u = 0; u < subscriber_list.length; u++){
                     if(subscriber_list[u].id == req.user._id){
-                        Servers.updateOne(
+                        const resultat = await Servers.updateOne(
                             { _id: req.params.server_id},
                             { $pull: { subscriber_id_list: { id: req.user._id} } },
-                            { safe : true} ,function(error) {
-                                if (error)
-                                    return res.status(500).send("Server Internal Error")
-                                else
-                                    return res.status(200).send("User is unsubscribe !" + server)
-                            }
+                            { safe : true}
                         )
+                        if(resultat == null) return res.status(500).send("Internal Server Error")
+                        return res.status(200).send("User is unsubscribe !")
                     }
                 }
             }
