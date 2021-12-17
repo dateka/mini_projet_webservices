@@ -58,7 +58,7 @@ app.post('/login', async (req, res) => {
             refreshTokens.push(refresh_token)
             res.send({ access_token : access_token, refresh_token : refresh_token })
         }else{
-           res.send("Not Allowed")
+           return res.send("Not Allowed")
         }
     }catch{
         return res.sendStatus(500)
