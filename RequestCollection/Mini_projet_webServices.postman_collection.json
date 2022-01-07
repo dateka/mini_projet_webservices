@@ -1,0 +1,634 @@
+{
+	"info": {
+		"_postman_id": "095a4cfb-890e-4f1d-89be-034e96b75205",
+		"name": "Mini_projet_webServices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Gestion du user dans le server",
+			"item": [
+				{
+					"name": "Remove an user from a server",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWJiMmEyMmFjNjMwZWYzZjFkZTgwZmQiLCJ1c2VybmFtZSI6IkF4ZWwiLCJlbWFpbCI6IkF4ZWxAZGlzY29yZC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRkWHVvZjBTUTJYMkF6am5RN1RHN04ueEVXdlIxQnJoRFNjWkJnN3ZjL2dHbVdwWk9Bb2k3dSIsInNlcnZlcl9wZXJtaXNzaW9uX2lkX2xpc3QiOlt7ImlkIjoiNjFiYjI3ZmE4YmQ1Njk1YThjZjE3OTg1In1dLCJpYXQiOjE2Mzk3NDkwNjIsImV4cCI6MTYzOTc0OTY2Mn0.AJjyI7pskVlBn69XSRFqpZD_m6Ab84EfagwZlUWQbc0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Only if you are admin\r\n// Otherwise no header\r\n// remove the comment before starting the request\r\n{\r\n    \"id\" : \"61bb15833a585d0038cf227f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/servers/61bb27fa8bd5695a8cf17985/unsubscribe",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"servers",
+								"61bb27fa8bd5695a8cf17985",
+								"unsubscribe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add an user in a server",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWJiMmEyMmFjNjMwZWYzZjFkZTgwZmQiLCJ1c2VybmFtZSI6IkF4ZWwiLCJlbWFpbCI6IkF4ZWxAZGlzY29yZC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRkWHVvZjBTUTJYMkF6am5RN1RHN04ueEVXdlIxQnJoRFNjWkJnN3ZjL2dHbVdwWk9Bb2k3dSIsImlhdCI6MTYzOTY1ODc1NywiZXhwIjoxNjM5NjU5MzU3fQ.jKsKXTNYMPYC-5xyI6JmkaUl-jLb84pddu1aXeNKgaU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\" : \"61bb2a22ac630ef3f1de80fd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/servers/61bb27fa8bd5695a8cf17985/subscribe",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"servers",
+								"61bb27fa8bd5695a8cf17985",
+								"subscribe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "promote an user to admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWJiMTYwNGExZDIwM2JlNjI2MjUxOTciLCJ1c2VybmFtZSI6Illvc3IiLCJlbWFpbCI6Illvc3JAZGlzY29yZC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQuemovV3RGYzRBWi9VUzdHMHBWNTBlZnY0cHJRY2kzbWJ3VTJiMndhSWUxU21YZm9pTTFJSyIsImlhdCI6MTYzOTY2NzAwMywiZXhwIjoxNjM5NjY3NjAzfQ.cZeTfEcI3ZBFlD-274no9Qa8F276-usEiFpitJZjIHY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"server_id\" : \"61bb27fa8bd5695a8cf17985\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/users/61bb2a22ac630ef3f1de80fd/promote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"users",
+								"61bb2a22ac630ef3f1de80fd",
+								"promote"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Obtain a token with authentication",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"Yosr\",\r\n    \"password\" : \"superpassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4001/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4001",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Servers",
+			"item": [
+				{
+					"name": "Delete a server",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWJiMTYwNGEDIwM2JlNjI2MjUxOTciLCJ1c2VybmFtZSI6Illvc3IiLCJlbWFpbCI6Illvc3JAZGlzY29yZC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQuemovV3RGYzRBWi9VUzdHMHBWNTBlZnY0cHJRY2kzbWJ3VTJiMndhSWUxU21YZm9pTTFJSyIsImlhdCI6MTYzOTY1NTUxMiwiZXhwIjoxNjM5NjU2MTEyfQ.VnLaizMw2I1ZN3tUjSdlPc1qF2oLrHXa-1VP_rmh5H4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/servers/61bb14de3a585d0038cf227b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"servers",
+								"61bb14de3a585d0038cf227b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a server",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzIiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWJiMTYwNGExZDIwM2JlNjI2MjUxOTciLCJ1c2VybmFtZSI6Illvc3IiLCJlbWFpbCI6Illvc3JAZGlzY29yZC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQuemovV3RGYzRBWi9VUzdHMHBWNTBlZnY0cHJRY2kzbWJ3VTJiMndhSWUxU21YZm9pTTFJSyIsImlhdCI6MTYzOTY1NTAxMiwiZXhwIjoxNjM5NjU1NjEyfQ.TS7CSadzgzN8-qUXKFHB9jveiFPgOu24Fo1eGLR7dSM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"test with modificatiooooon\",\r\n    \"description\" : \"OKOKOK\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/servers/61bb25fe79e82f6e8aba1857",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"servers",
+								"61bb25fe79e82f6e8aba1857"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Server creation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"testons des choses\",\r\n    \"description\": \"just test\",\r\n    \"owner_id\": \"61bb1604a1d203be62625197\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/servers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"servers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Channels",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				},
+				{
+					"name": "Channel creation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWJiMTYwNGExZDIwM2JlNjI2MjUxOTciLCJ1c2VybmFtZSI6Illvc3IiLCJlbWFpbCI6Illvc3JAZGlzY29yZC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQuemovV3RGYzRBWi9VUzdHMHBWNTBlZnY0cHJRY2kzbWJ3VTJiMndhSWUxU21YZm9pTTFJSyIsImlhdCI6MTYzOTY1NjkzNiwiZXhwIjoxNjM5NjU3NTM2fQ.8V9wnxP1BrhayzO1eC_raKW5IBgbN_TeoeNkuhaxFqk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"server_id\" : \"61bb27fa8bd5695a8cf17985\",\r\n    \"name\" : \"general\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/channels",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"channels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a channel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWJiMTYwNGExZDIwM2JlNjI2MjUxOTciLCJ1c2VybmFtZSI6Illvc3IiLCJlbWFpbCI6Illvc3JAZGlzY29yZC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQuemovV3RGYzRBWi9VUzdHMHBWNTBlZnY0cHJRY2kzbWJ3VTJiMndhSWUxU21YZm9pTTFJSyIsImlhdCI6MTYzOTY1NzU0MywiZXhwIjoxNjM5NjU4MTQzfQ.VzeE4ZnnwqOm21M8yK7PHyAPpBfbRuHxMXHSh5mUN6k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"test_update\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/channels/61bb2dfca14ae63b04f32241",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"channels",
+								"61bb2dfca14ae63b04f32241"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a channel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWJiMTYwNGExZDIwM2JlNjI2MjUxOTciLCJ1c2VybmFtZSI6Illvc3IiLCJlbWFpbCI6Illvc3JAZGlzY29yZC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQuemovV3RGYzRBWi9VUzdHMHBWNTBlZnY0cHJRY2kzbWJ3VTJiMndhSWUxU21YZm9pTTFJSyIsImlhdCI6MTYzOTY1Nzc0MSwiZXhwIjoxNjM5NjU4MzQxfQ.BTR1q0fBtvGgpGWisc4KYFv1vwsj936ZZeBkRldJZZw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/channels/61bb2dfca14ae63b04f32241",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"channels",
+								"61bb2dfca14ae63b04f32241"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Message creation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWJiMmEyMmFjNjMwZWYzZjFkZTgwZmQiLCJ1c2VybmFtZSI6IkF4ZWwiLCJlbWFpbCI6IkF4ZWxAZGlzY29yZC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRkWHVvZjBTUTJYMkF6am5RN1RHN04ueEVXdlIxQnJoRFNjWkJnN3ZjL2dHbVdwWk9Bb2k3dSIsImlhdCI6MTYzOTY1OTQ0MywiZXhwIjoxNjM5NjYwMDQzfQ.eZjyi9kerRM-nAgmsuMaebLzYpiEcJ2Do1DYlxQE8X4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\" : \"coucou ça va ?\",\r\n    \"channel_id\" : \"61bb33600904040e74b6d7b2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/messages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all message from a channel for a subscribe user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWJiMmEyMmFjNjMwZWYzZjFkZTgwZmQiLCJ1c2VybmFtZSI6IkF4ZWwiLCJlbWFpbCI6IkF4ZWxAZGlzY29yZC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRkWHVvZjBTUTJYMkF6am5RN1RHN04ueEVXdlIxQnJoRFNjWkJnN3ZjL2dHbVdwWk9Bb2k3dSIsImlhdCI6MTYzOTY2MDA0MCwiZXhwIjoxNjM5NjYwNjQwfQ.-TKVlhqQVjHCz3Z1AGBlupETYHZMHNcUOm4718vNW0k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/channels/61bb33600904040e74b6d7b2/messages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"channels",
+								"61bb33600904040e74b6d7b2",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWJiMTYwNGExZDIwM2JlNjI2MjUxOTciLCJ1c2VybmFtZSI6Illvc3IiLCJlbWFpbCI6Illvc3JAZGlzY29yZC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQuemovV3RGYzRBWi9VUzdHMHBWNTBlZnY0cHJRY2kzbWJ3VTJiMndhSWUxU21YZm9pTTFJSyIsImlhdCI6MTYzOTY2NTk5NSwiZXhwIjoxNjM5NjY2NTk1fQ.ohLIeHc7LyHGSgbxCrnlcHtBWcGoU2y_p5aQ8rmNk54",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/messages/61bb3833128f0895bd4f1a35",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"messages",
+								"61bb3833128f0895bd4f1a35"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "http://localhost:3001/messages",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWI0YTU0Nzk1YzI1ZGJiOGQ4Yjk3N2MiLCJ1c2VybmFtZSI6ImRhbWllbiIsImVtYWlsIjoiZGFtaWVuQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFRnYmZta1FUeEJtNnZWVjFwVzJFcE95d0N2VjJzWWhOTTNHa0RHbkMweVdoNXRZTFROVXJ5IiwiaWF0IjoxNjM5Mzk4NTUxLCJleHAiOjE2MzkzOTkxNTF9.KkvMEsDFFP5oE9_UwiRDJK6Wft1OBScwe04Z8aoRggA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/messages/61b734c6e18470ff9dbd12dc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"messages",
+						"61b734c6e18470ff9dbd12dc"
+					]
+				},
+				"description": "creation d'un message pour un utilisateur"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/messages/61b734c6e18470ff9dbd12dc",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWI0YTU0Nzk1YzI1ZGJiOGQ4Yjk3N2MiLCJ1c2VybmFtZSI6ImRhbWllbiIsImVtYWlsIjoiZGFtaWVuQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFRnYmZta1FUeEJtNnZWVjFwVzJFcE95d0N2VjJzWWhOTTNHa0RHbkMweVdoNXRZTFROVXJ5IiwiaWF0IjoxNjM5Mzk3MDQ0LCJleHAiOjE2MzkzOTc2NDR9.Z6ABZSjCBYOYABhg_-0ZI0bT_Q40uV5LzxvSyfmRm7c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\" : \"oui ça va\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/messages/61b734c6e18470ff9dbd12dc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"messages",
+						"61b734c6e18470ff9dbd12dc"
+					]
+				},
+				"description": "Modification par l'utilisateur d'un message laissé par un utilisateur"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/messages",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWI0YTU0Nzk1YzI1ZGJiOGQ4Yjk3N2MiLCJ1c2VybmFtZSI6ImRhbWllbiIsImVtYWlsIjoiZGFtaWVuQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFRnYmZta1FUeEJtNnZWVjFwVzJFcE95d0N2VjJzWWhOTTNHa0RHbkMweVdoNXRZTFROVXJ5IiwiaWF0IjoxNjM5Mzk3MDQ0LCJleHAiOjE2MzkzOTc2NDR9.Z6ABZSjCBYOYABhg_-0ZI0bT_Q40uV5LzxvSyfmRm7c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/messages",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"messages"
+					]
+				},
+				"description": "Obtenir tous les messages de la personnes authentifiée"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/messages",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWI0YTU0Nzk1YzI1ZGJiOGQ4Yjk3N2MiLCJ1c2VybmFtZSI6ImRhbWllbiIsImVtYWlsIjoiZGFtaWVuQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFRnYmZta1FUeEJtNnZWVjFwVzJFcE95d0N2VjJzWWhOTTNHa0RHbkMweVdoNXRZTFROVXJ5IiwiaWF0IjoxNjM5Mzk4NTUxLCJleHAiOjE2MzkzOTkxNTF9.KkvMEsDFFP5oE9_UwiRDJK6Wft1OBScwe04Z8aoRggA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"content\" : \"coucou ça va boby ?\",\r\n    \"channel_id\" : \"1236547895585\",\r\n    \"owner_id\" : \"61b4a54795c25dbb8d8b977c\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/messages",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"messages"
+					]
+				},
+				"description": "Ajout d'un message pour un user"
+			},
+			"response": []
+		}
+	]
+}
