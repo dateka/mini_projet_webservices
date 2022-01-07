@@ -92,7 +92,12 @@ app.get('/users', async (req, res) => {
 // Get only One user (optionnal)
 app.get('/users/:id', async (req, res) => {
     const result = await Users.find({ _id : req.params.id});
-    res.send(result);
+    const userTMP = 
+    {
+        username : result[0].username,
+        email: result[0].email,
+    }
+    res.send(userTMP);
 })
 
 // Supression d'un user (optionnal)

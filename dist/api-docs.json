@@ -3,26 +3,30 @@
   "info": {
     "version": "1.0.0",
     "title": "Discord_bis API",
-    "description": "mini projet webServices API",
+    "description": "Mini projet webServices API",
     "termsOfService": "http://swagger.io/terms/"
   },
   "basePath": "/",
   "tags": [
     {
       "name": "Users",
-      "description": "User definition"
+      "description": "Everything about the user"
     },
     {
       "name": "Channels",
-      "description": "channel definition"
+      "description": "Everything about the channel"
     },
     {
       "name": "Servers",
-      "description": "server definition"
+      "description": "Everything about the server"
     },
     {
       "name": "Messages",
-      "description": "message definition"
+      "description": "Everything about the message"
+    },
+    {
+      "name": "Specials",
+      "description": "Anything that doesn't fit into the other categories"
     }
   ],
   "schemes": [
@@ -58,13 +62,13 @@
         ],
         "responses": {
           "201": {
-            "description": "create response",
+            "description": "Create response",
             "schema": {
               "$ref": "#/components/Users"
             }
           },
           "400": {
-            "description": "bad request"
+            "description": "Bad request"
           }
         }
       }
@@ -80,7 +84,7 @@
           "Users"
         ],
         "description": "Delete an user",
-        "operationId": "delete user by Id",
+        "operationId": "Delete user by Id",
         "produces": [
           "application/json"
         ],
@@ -98,27 +102,25 @@
             "description": "User successfully deleted"
           },
           "400": {
-            "description": "Invalid ID"
+            "description": "Bad request"
           },
           "401": {
             "description": "Not authenticated"
           },
           "403": {
             "description": "Access token does not have the required scope"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       },
       "get": {
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "tags": [
           "Users"
         ],
-        "description": "Returns the status of an user",
-        "operationId": "find by Id",
+        "description": "Returns the status of an user (just the username and email)",
+        "operationId": "Find by Id",
         "produces": [
           "application/json"
         ],
@@ -135,17 +137,14 @@
           "200": {
             "description": "response",
             "schema": {
-              "$ref": "#/components/Users"
+              "$ref": "#/components/UsersDTO"
             }
           },
           "400": {
-            "description": "Invalid ID"
+            "description": "Bad request"
           },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "403": {
-            "description": "Access token does not have the required scope"
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -169,7 +168,7 @@
           {
             "name": "Channel Parameters",
             "in": "body",
-            "description": "Create a channel in our database",
+            "description": "Create a channel in a server in our database",
             "required": true,
             "schema": {
               "$ref": "#/components/Channels"
@@ -184,7 +183,13 @@
             }
           },
           "400": {
-            "description": "bad request"
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Access token does not have the required scope"
           }
         }
       }
@@ -200,7 +205,7 @@
           "Channels"
         ],
         "description": "Delete a channel",
-        "operationId": "delete channel by Id",
+        "operationId": "Delete channel by Id",
         "produces": [
           "application/json"
         ],
@@ -215,19 +220,22 @@
         ],
         "responses": {
           "204": {
-            "description": "delete response",
+            "description": "Delete response",
             "schema": {
               "$ref": "#/components/Channels"
             }
           },
           "400": {
-            "description": "Invalid ID"
+            "description": "Bad request"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Not authenticated"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Access token does not have the required scope"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       },
@@ -241,7 +249,7 @@
           "Channels"
         ],
         "description": "Returns the status of a channel",
-        "operationId": "find channel by Id",
+        "operationId": "Find channel by Id",
         "produces": [
           "application/json"
         ],
@@ -262,13 +270,69 @@
             }
           },
           "400": {
-            "description": "Invalid ID"
+            "description": "Bad request"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Not authenticated"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Access token does not have the required scope"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Channels"
+        ],
+        "description": "Update a channel",
+        "operationId": "Update channel by Id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "channel_id",
+            "description": "ID of channel to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "channel update",
+            "description": "channel to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/Channel_update"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Channel successfully updated",
+            "schema": {
+              "$ref": "#/components/Channels"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Access token does not have the required scope"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -301,13 +365,19 @@
         ],
         "responses": {
           "200": {
-            "description": "create response",
+            "description": "Server successfully created",
             "schema": {
               "$ref": "#/components/Servers"
             }
           },
           "400": {
-            "description": "bad request"
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Access token does not have the required scope"
           }
         }
       }
@@ -323,7 +393,7 @@
           "Servers"
         ],
         "description": "Delete a server",
-        "operationId": "delete server by Id",
+        "operationId": "Delete server by Id",
         "produces": [
           "application/json"
         ],
@@ -338,19 +408,22 @@
         ],
         "responses": {
           "204": {
-            "description": "delete response",
+            "description": "Server successfully deleted",
             "schema": {
               "$ref": "#/components/Servers"
             }
           },
           "400": {
-            "description": "Invalid ID"
+            "description": "Bad request"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Not authenticated"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Access token does not have the required scope"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       },
@@ -364,7 +437,7 @@
           "Servers"
         ],
         "description": "Returns the status of a server",
-        "operationId": "find server by Id",
+        "operationId": "Find server by Id",
         "produces": [
           "application/json"
         ],
@@ -385,13 +458,69 @@
             }
           },
           "400": {
-            "description": "Invalid ID"
+            "description": "Bad request"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Not authenticated"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Access token does not have the required scope"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Servers"
+        ],
+        "description": "Update a server",
+        "operationId": "Update server by Id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "server_id",
+            "description": "ID of server to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "modication content",
+            "description": "server update",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/Server_update"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Server successfully update",
+            "schema": {
+              "$ref": "#/components/Servers"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Access token does not have the required scope"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -407,7 +536,7 @@
           "Messages"
         ],
         "description": "Create a message",
-        "operationId": "Http://localhost:3001/messages",
+        "operationId": "Create a message",
         "produces": [
           "application/json"
         ],
@@ -424,13 +553,19 @@
         ],
         "responses": {
           "200": {
-            "description": "create response",
+            "description": "Message successfully created",
             "schema": {
               "$ref": "#/components/Messages"
             }
           },
           "400": {
-            "description": "bad request"
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Access token does not have the required scope"
           }
         }
       }
@@ -446,7 +581,7 @@
           "Messages"
         ],
         "description": "Delete a message",
-        "operationId": "delete message by Id",
+        "operationId": "Delete message by Id",
         "produces": [
           "application/json"
         ],
@@ -461,19 +596,22 @@
         ],
         "responses": {
           "204": {
-            "description": "delete response",
+            "description": "Message successfully deleted",
             "schema": {
               "$ref": "#/components/Messages"
             }
           },
           "400": {
-            "description": "Invalid ID"
+            "description": "Bad request"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Not authenticated"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Access token does not have the required scope"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       },
@@ -487,7 +625,7 @@
           "Messages"
         ],
         "description": "Returns the status of a message",
-        "operationId": "find message by Id",
+        "operationId": "Find message by Id",
         "produces": [
           "application/json"
         ],
@@ -508,13 +646,227 @@
             }
           },
           "400": {
-            "description": "Invalid ID"
+            "description": "Bad request"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Not authenticated"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Access token does not have the required scope"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Messages"
+        ],
+        "description": "Update a message",
+        "operationId": "Update message by Id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "message_id",
+            "description": "ID of message to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "Message content",
+            "description": "Message content",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/Message_content_update"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Message successfully updated",
+            "schema": {
+              "$ref": "#/components/Messages"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Access token does not have the required scope"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/users/{user_id}/promote": {
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Specials"
+        ],
+        "description": "Promote an user to admin rank",
+        "operationId": "Promote an user to admin rank",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "description": "ID of user to promote",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "server_id",
+            "description": "ID of server",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/Server_id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User promoted to admin rank",
+            "schema": {
+              "$ref": "#/components/Servers"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Access token does not have the required scope"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/servers/{server_id}/subscribe": {
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Specials"
+        ],
+        "description": "Subscribe an user to a server",
+        "operationId": "Subscribe an user to a server",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "server_id",
+            "description": "ID of server",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "user_id",
+            "description": "ID of user to subscribe",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/User_id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is subscribe",
+            "schema": {
+              "$ref": "#/components/Servers"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/servers/{server_id}/unsubscribe": {
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Specials"
+        ],
+        "description": "Unsubscribe an user to a server",
+        "operationId": "Unsubscribe an user to a server",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "server_id",
+            "description": "ID of server",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "user_id",
+            "description": "ID of user to unsubscribe",
+            "schema": {
+              "$ref": "#/components/User_id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is unsubscribe",
+            "schema": {
+              "$ref": "#/components/Servers"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -565,6 +917,29 @@
           "items": {
             "$ref": "#/components/ListServerPermissionAdmin"
           }
+        }
+      }
+    },
+    "UsersDTO": {
+      "type": "object",
+      "title": "UsersDTO represents the user information for an other user",
+      "description": "blablabla",
+      "required": [
+        "_id",
+        "username",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "description": "the name for this user",
+          "type": "string",
+          "example": "damien"
+        },
+        "email": {
+          "description": "the mail for this user",
+          "type": "string",
+          "example": "damien@exemple.com"
         }
       }
     },
@@ -682,6 +1057,232 @@
       "properties": {
         "user_id": {
           "type": "string"
+        }
+      }
+    },
+    "PromoteUser": {
+      "type": "object",
+      "title": "Promoting the user",
+      "required": [
+        "server_id"
+      ],
+      "properties": {
+        "_id": {
+          "description": "the id for this user",
+          "type": "string",
+          "example": "sdsdsdfesfsdf1dsf5sd4f"
+        },
+        "server_id": {
+          "description": "the server_id for the new admin",
+          "type": "string",
+          "example": "assgsfftdhgs231rgsd"
+        }
+      }
+    },
+    "User_id": {
+      "type": "object",
+      "title": "user_id",
+      "required": [
+        "user_id"
+      ],
+      "properties": {
+        "user_id": {
+          "description": "the user_id",
+          "type": "string",
+          "example": "assgsfftdhgs231rgsd"
+        }
+      }
+    },
+    "Server_id": {
+      "type": "object",
+      "title": "server_id",
+      "required": [
+        "server_id"
+      ],
+      "properties": {
+        "server_id": {
+          "description": "the server_id",
+          "type": "string",
+          "example": "assgsfftdhgs231rgsd"
+        }
+      }
+    },
+    "Message_content_update": {
+      "type": "object",
+      "title": "message content",
+      "required": [
+        "content"
+      ],
+      "properties": {
+        "content": {
+          "description": "the message content",
+          "type": "string",
+          "example": "coucou"
+        }
+      }
+    },
+    "Server_update": {
+      "type": "object",
+      "title": "Servers update",
+      "properties": {
+        "name": {
+          "description": "the name for this server",
+          "type": "string",
+          "example": "1deffs15s6df13gsd54g1"
+        },
+        "description": {
+          "description": "the description for this server",
+          "type": "string",
+          "example": "tout sur la crypto !"
+        }
+      }
+    },
+    "Channel_update": {
+      "type": "object",
+      "title": "Channels update",
+      "properties": {
+        "name": {
+          "description": "The name for this channel",
+          "type": "string",
+          "example": "general"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Users": {
+      "type": "object",
+      "title": "Users",
+      "required": [
+        "_id",
+        "username",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "_id": {
+          "description": "The id for this user",
+          "type": "string",
+          "example": "sdsdddfsfsdf1dsf5sd4f"
+        },
+        "username": {
+          "description": "The name for this user",
+          "type": "string",
+          "example": "damien"
+        },
+        "email": {
+          "description": "The mail for this user",
+          "type": "string",
+          "example": "damien@exemple.com"
+        },
+        "password": {
+          "description": "The password for this user",
+          "type": "string",
+          "example": "super-password"
+        },
+        "server_permission_id_list": {
+          "description": "The server_permission for this user",
+          "type": "array",
+          "items": {
+            "$ref": "#/components/ListServerPermissionAdmin"
+          }
+        }
+      }
+    },
+    "Channels": {
+      "type": "object",
+      "required": [
+        "_id",
+        "server_id",
+        "name"
+      ],
+      "properties": {
+        "_id": {
+          "description": "The id for this channel",
+          "type": "string",
+          "example": "sdsdddfsfsdf1dsf5sd4f"
+        },
+        "server_id": {
+          "description": "The id for the server to bind",
+          "type": "string",
+          "example": "1deffs15s6df13gsd54g1"
+        },
+        "name": {
+          "description": "The name for this channel",
+          "type": "string",
+          "example": "general"
+        }
+      }
+    },
+    "Servers": {
+      "type": "object",
+      "title": "Servers",
+      "required": [
+        "_id",
+        "name",
+        "description",
+        "owner_id"
+      ],
+      "properties": {
+        "_id": {
+          "description": "The id for this server",
+          "type": "string",
+          "example": "sdsdsdfesfsdf1dsf5sd4f"
+        },
+        "name": {
+          "description": "The name for this server",
+          "type": "string",
+          "example": "1deffs15s6df13gsd54g1"
+        },
+        "description": {
+          "description": "The description for this server",
+          "type": "string",
+          "example": "general"
+        },
+        "owner_id": {
+          "description": "The owner_id for this server",
+          "type": "string",
+          "example": "general"
+        },
+        "subscriber_id_list": {
+          "description": "The subcriber list for this server",
+          "type": "array",
+          "items": {
+            "$ref": "#/components/ListSubscriber"
+          }
+        }
+      }
+    },
+    "Messages": {
+      "type": "object",
+      "title": "Messages",
+      "required": [
+        "_id",
+        "content",
+        "username",
+        "channel_id",
+        "owner_id"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "sdsdsdfesfsdf1dsf5sd4f"
+        },
+        "content": {
+          "type": "string",
+          "example": "coucou ça va ?"
+        },
+        "username": {
+          "type": "string",
+          "example": "damien"
+        },
+        "channel_id": {
+          "type": "string",
+          "example": "1fdz35sdf46sdfsdfsdf6sdf5"
+        },
+        "owner_id": {
+          "type": "string",
+          "example": "1fsdf54sdf1qs3fsd54qsf2"
         }
       }
     }
